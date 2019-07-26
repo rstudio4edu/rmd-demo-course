@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>DATA-101: Intro to Data Science</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="style.css" rel="stylesheet">
+
+  <div class="image-descript"> 
+		<img class="big_image" src="images/firstclass.jpg">
+		<div class="image-text">
+			<div class="big-image-text">Intro to Data Science</div>
+		</div>
+  </div>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="assets/style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Demo Data Science Course</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Syllabus</a>
+</li>
+<li>
+  <a href="schedule.html">Schedule</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Intro</li>
+    <li>
+      <a href="lab1.html">Lab 1</a>
+    </li>
+    <li>
+      <a href="lab2.html">Lab 2</a>
+    </li>
+    <li>
+      <a href="lab3.html">Lab 3</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Advanced</li>
+    <li>
+      <a href="lab4.html">Lab 4</a>
+    </li>
+    <li>
+      <a href="lab5.html">Lab 5</a>
+    </li>
+    <li>
+      <a href="lab6.html">Lab 6</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://rstudio.cloud/">RStudio Cloud</a>
+</li>
+<li>
+  <a href="https://gitter.im/apps">Chat</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">DATA-101: Intro to Data Science</h1>
+
+</div>
+
+
+<div id="welcome" class="section level2">
+<h2>Welcome</h2>
+<p>This is the course website for DATA-101: Intro to Data Science. All of our course content will be made accessible to you here, including the course schedule, slides and reading materials, and lab content.</p>
+</div>
+<div id="logistics" class="section level2">
+<h2>Logistics</h2>
+<p>Tuesdays and Thursdays<br />
+Sep 6 – Dec 13, 2019<br />
+13:00–14:30 PM<br />
+Rm 111, Building</p>
+</div>
+<div id="teaching-team" class="section level2">
+<h2>Teaching Team</h2>
+<div id="instructor" class="section level3">
+<h3>Instructor</h3>
+<p><strong>Dr. Name Here</strong><br />
+Office <a href="mailto:youremail@email.edu" class="email">youremail@email.edu</a><br />
+Office hours: Insert Here</p>
+</div>
+<div id="tas" class="section level3">
+<h3>TAs</h3>
+<p><strong>Grad Student 1</strong><br />
+<a href="mailto:student@email.edu" class="email">student@email.edu</a></p>
+<p><strong>Grad Student 2</strong><br />
+<a href="mailto:student@email.edu" class="email">student@email.edu</a></p>
+</div>
+</div>
+<div id="course-overview" class="section level2">
+<h2>Course Overview</h2>
+<p>This semester-long course aims to give you a foundation in the principles and practice of data science. The course goal is to teach you how to work with data–how to explore it, clean it, visualize it, and analyze it. Importantly, you’ll learn how to do each of things in a way that will be easily shareable and reproducible.</p>
+</div>
+<div id="approach" class="section level2">
+<h2>Approach</h2>
+<p>The structure of most classes will consist of an introduction to new content in a lecture-like format, interspersed with in-class exercises where we practice applying the new content together. Readings are assigned to be completed before most classes and are designed to give you the necessary background to feel successful for that day’s lecture. Homework questions covering the day’s content will be posted at the end of each lecture. These questions will not be graded, but you are strongly encouraged to complete them so that you have an opportunity to keep your coding gears well-greased in between classes. Unannounced in-class quizzes will occur throughout the semester to assess your knowledge of the course material as we go. The exercises come from the lecture content, readings, and homework questions.</p>
+<p>Throughout the course there will also be several classes used for labs. These will be completed in assigned groups, and are intended to be larger-scale opportunties to work with data in a project setting. Lab content will be introduced at the start of class and the rest of the time will be used for working in groups.</p>
+</div>
+<div id="tools-and-equipment" class="section level2">
+<h2>Tools and Equipment</h2>
+<p>You will need a laptop to complete all in-class exercises and labs.</p>
+<p>Throughout this course we will be using R and RStudio. You have access to both of these for free. R is the programming language, and RStudio is the software that let’s you interface with R easily. You can install R and RStudio on your local computer, but you can also access RStudio from the cloud, using the (also free) RStudio.cloud service.</p>
+</div>
+<div id="textbook-and-assigned-readings" class="section level2">
+<h2>Textbook and Assigned Readings</h2>
+<p>All textbooks are freely available online.</p>
+<ul>
+<li><a href="https://r4ds.had.co.nz/">R for Data Science</a></li>
+<li><a href="http://socviz.co/">Data Visualization: A Practical Introduction</a></li>
+</ul>
+</div>
+<div id="grading" class="section level2">
+<h2>Grading</h2>
+<p>Your course grade will be based on a final exam (40%), lab grades (30%), unannounced quizzes (20%), and class participation (10%).</p>
+</div>
+<div id="policies" class="section level2">
+<h2>Policies</h2>
+<div id="missed-or-late-work" class="section level3">
+<h3>Missed or late work</h3>
+<p>If you have extenuating circumstances that will cause you to miss class or a deadline, then please let me know, and I will do my best to accomodate you. In general, absences or late work <em>without</em> making arrangements with me in advance will <em>not</em> be accepted.</p>
+</div>
+<div id="academic-integrity" class="section level3">
+<h3>Academic Integrity</h3>
+<p>Sharing, collaborating, and making good use of online resources is an important part of learning in the data science community. Doing so is strongly encouraged in this class. However, all resources you modify or recycle must be clearly given credit, and work that is intended to be completed independently either by you or by your lab group, must be done so honestly.</p>
+<p>Participating in this course means that you are learning along with a community. Any form of plagiarism, cheating, or lying is a breach of community trust and will not be tolerated. Academic dishonesty of this kind will result in receiving no-credit for the related work and may result in additional penalties at the course and insitution level.</p>
+</div>
+<div id="code-of-conduct" class="section level3">
+<h3>Code of Conduct</h3>
+<p>We will follow a code of conduct that is supportive and welcoming of all people, regardless of background or identity. In order to create an environment that is encourages learning and open discussion, we will follow the same conduct guidelines as <a href="https://docs.carpentries.org/topic_folders/policies/code-of-conduct.html">The Carpentries</a> for all course-related events and activities: &gt; * Use welcoming and inclusive language * Be respectful of different viewpoints and experiences * Gracefully accept constructive criticism * Focus on what is best for the community * Show courtesy and respect towards other community members Use welcoming and inclusive language</p>
+<p>If you believe someone is violating the Code of Conduct, we ask that you report it to The Carpentries Code of Conduct Committee completing this form, who will take the appropriate action to address the situation.</p>
+<p><a href="http://www.host.com/link.html"><img src="images/by-nc.png" alt="cc-by-nc" /></a></p>
+</div>
+</div>
+
+<!DOCTYPE html>
+<div class="footer">
+	<hr> 
+	<p style="text-align: center;"> <span style="color: #808080; display: inline-block; width: 33%;"> 	This website was created using an rstudio4edu template.
+ </span></p>
+	<p style="text-align: center;">
+	</p>
+	<p>
+  </p>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

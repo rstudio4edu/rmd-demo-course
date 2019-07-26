@@ -1,0 +1,40 @@
+name: "Demo Course Site"
+output_dir: "docs"
+navbar:
+  title: "Demo Data Science Course"
+  left:
+    - text: "Syllabus"
+      href: index.html
+    - text: "Schedule"
+      href: schedule.html
+    - text: "Labs"
+      menu:
+      - text: "Intro"
+      - text: "Lab 1"
+        href: lab1.html
+      - text: "Lab 2"
+        href: lab2.html
+      - text: "Lab 3"
+        href: lab3.html
+      - text: "---"
+      - text: "Advanced"
+      - text: "Lab 4"
+        href: lab4.html
+      - text: "Lab 5"
+        href: lab5.html
+      - text: "Lab 6"
+        href: lab6.html
+  right:
+    - text: "RStudio Cloud"
+      href: https://rstudio.cloud/
+    - text: "Chat"
+      href: https://gitter.im/apps
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_float: true
+    includes:
+      after_body: assets/footer.html
+    css: assets/style.css
+    

@@ -1,0 +1,7 @@
+---
+title: "Lab 5"
+---
+
+![](images/genius.jpg)
+
+Your genius lab goes here!

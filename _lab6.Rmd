@@ -1,0 +1,12 @@
+---
+title: "Lab 6"
+---
+
+Imagine that this lab is a work-in-progress, and you're not ready for it to be rendered.
+
+You can prevent this file from being included in your site, when you add an underscore `_` to its file name. As soon as it's ready, you can remove the underscore and re-build your site.
+
+
+![](images/genius.jpg)
+
+Your genius lab goes here!
