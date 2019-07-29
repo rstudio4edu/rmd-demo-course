@@ -1,12 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans|Muli|Roboto|Playfair+Display|Lora:400,400i,700,700i&display=swap');
+
+
 /* Whole document: */
 
-.navbar-default {
-    background-color: black;
-    border: none;
-}
 
 body {
 	font-size: 19px;
+	font-family: 'Muli';
+}
+
+
+a { /* links */
+  color: #5ebccf;
+}
+
+a:hover {
+ color: #50a0b0; /* darker color when hovering */
 }
 
 h1 {
@@ -22,16 +31,17 @@ h2, h3, h4, h5 {
   margin-bottom: 0.75em;
 }
 
+
  .container-fluid {   /* margin: 0 Left-aligns container; margin: auto to "center" (Default)*/
     margin-right: auto !important; 
     margin-left: auto !important;
 } 
 
-
 .row-fluid{
-  display: flex;
-  position: relative;
+  display: flex; /* Necessary for stick TOC*/
+  /*  position: relative; */
 }
+
 
 /*
 .col-xs-12 .col-sm-4 .col-md-3{
@@ -39,8 +49,24 @@ h2, h3, h4, h5 {
   position: relative;
 }
 
-/*TOCIFY code*/
+/*----------------NAVBAR ---------------*/
+.navbar-default {
+    background-color: black;
+    border: none;
+}
 
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.active>a, a.dropdown-toggle:hover {
+  background-color: black !important;
+}
+
+.navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav:hover, .navbar-default .navbar-nav>li>a:hover, a.navbar-brand:hover {
+  color: #5ccbd3 !important;
+  background-color: black;
+}
+
+
+
+/*-----------*Table of Contents*------------*/
 
 div.tocify {
     width: 100% !important;
@@ -54,21 +80,23 @@ div.tocify {
   border: none;
   position: -webkit-sticky;
   position: sticky; 
-  top: 60px; 
+  top: 120px; /*Controls where TOC stops when sticky */
   width: 100%;
 }
 
+
+/*
 #TOC {
   position: -webkit-sticky !important;
   position: sticky !important;
 }
+*/
 
-
+/*
 .toc-content {
   width: 75%
 }
-
-
+*/
 
 .list-group-item {
     position: relative;
@@ -77,80 +105,57 @@ div.tocify {
     margin-bottom: -1px;
     background-color: white;
     border: none;
-    color: gray;
+    color: #7b8a8b;
 }
 
-.list-group-item:hover {
-    z-index: 2;
+.list-group-item:hover, .list-group-item.active:hover {
     color: DarkSlateGray;
     background-color: white;
     border: none;
 }
 
-.list-group-item.active{
-    z-index: 2;
-    color: black;
+.list-group-item.active {
+    color: #2c3e50;
     background-color: white;
     border: none;
 }
 
-.list-group-item.active:focus {
-    z-index: 2;
-    color: black;
-    background-color: white;
-    border: none;
-}
+/* Hides floating TOC on mobile*/ 
 
-.list-group-item.active:hover {
-  z-index: 2;
-  color: DarkSlateGray;
-  background-color: white;
-  border: none;
+@media screen and (max-width: 768px){
+  .col-xs-12.col-sm-4.col-md-3 {
+    display: none;
+  }
 }
 
 
-
-.footer {
-  font-size: .75em;
-  text-transform: uppercase;
-  color: #808080;
-  text-align: center;
-}
-
-.foot hr{
-  width: 80%;
-}
-
-
-.tocify-extend-page {
-  height: 0px !important; /* Gets rid of extra space after footer*/
-}
-
-body, html {
-  height: 100%;
-}
+/* -----------HERO IMAGE AT TOP OF PAGE -----------*/
 
 /* LARGE HERO IMAGE AT TOP OF PAGE*/
-.image-descript {
+
+.hero-image-container {
     position: relative;
     margin-bottom: 2em;
-    background-color: black; 
-    
+    background-image: url(../images/green-sketch.jpg);
+    height: 400px;
+    background-size: cover;
+    background-color: #5ccbd3;
+    background-position: center center;
+    display: block; /* Change to `display: none` for no hero image */
 }
 
-
-.big_image {
+/*
+.hero_image {
   margin-top: -50px;
   width: 100%;
-  height: 600px;
   object-fit: cover;
-  opacity: 0.9; /* makes image appear dark tinted */
+  opacity: 0.9; 
 }
-
+*/
 
 .big-image-text {
   letter-spacing: 0.065em;
-  line-height: 1 em;
+  line-height: 1em;
   font-size: 68px;
   text-transform: uppercase;
   text-align: center;
@@ -162,30 +167,94 @@ body, html {
 
 
 .image-text{
-    position: absolute;
-    top:30%;
-    left:0;
+    position: absolute; 
+    top:30%; 
+    left: 0;
     right:0;
-    bottom:0;
+    bottom: 0;
     padding-left: 1em;
     padding-right: 1em;
   }
+
+
+/*-------------FOOTER-------------- */
+
+.footer {
+  font-size: .75em;
+  text-transform: uppercase;
+  color: #808080;
+  text-align: center;
+  width: 33%;
+  margin: 3rem auto;
+}
+
+/* Divider line above footer */
+.footer hr{
+  width: 100%;
+}
+
+
+.tocify-extend-page {
+  height: 0px !important; /* Gets rid of extra space after footer*/
+}
+
+body, html {
+  height: 100%;
+}
+
+.rstudio4edu {
+  color: #3fb5bd;
+  font-family: "Lora";
+  font-size: 1.25em;
+  font-weight: 600;
+  text-transform: none;
+  text-decoration: none;
   
-.lil-image-text { 
-    color: white;
-    margin-top: 0px;
-      margin-right: auto;
-      margin-bottom: 20px;
-      margin-left: auto;
-    padding-top: 0px;
-    text-align: center; 
-    display:block;
-    font-family: 'Lora', serif;
-      font-size: 22px;
-      font-weight: 500;
-      line-height: 1.5em;
-      letter-spacing: 1px;
-      font-style: italic;
-      font-weight: normal;
-      color: #fff;
-  }
+}
+
+
+/* ADD A LOGO. THREE OPTIONS */
+/* For no logo, comment out all options below*/
+
+/*1: For logo immediately above TOC, use style rule below, otherwise comment out*/
+
+#TOC::before {
+  content: "";
+  display: block;
+  height: 200px;
+  margin: 20px 20px 40px 20px;
+  background-image: url("../images/logo-black.png");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+
+/* 2: For logo above title in upper righthand corner, inline with Title and Author, when also used with logo.HTML before_body. use style rule below. otherwise comment out*/
+
+/*
+.upper-right-logo {
+  margin-top: 20px;
+  background-image: url("logo-black.png");
+  height: 150px;
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+*/
+
+
+/* 3: For logo to be in upper righthand corner, ABOVE title and author */
+/* not recommended if using TOC float */
+/*
+#header.fluid-row::before {
+  content: "";
+  display: block;
+  margin-top: 20px;
+  background-image: url("logo-black.png");
+  height: 150px;
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+*/
