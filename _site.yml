@@ -24,7 +24,6 @@ navbar:
       - text: "General Resources"
       - text: "Additional Readings"
         href: readings-general.html
-
   right:
     - icon: "fa-github"
       href: https://github.com/rstudio4edu/rmd-course-fancy
