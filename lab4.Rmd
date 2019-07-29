@@ -2,6 +2,6 @@
 title: "Lab 4"
 ---
 
-![](images/genius.jpg)
+![](images/genius.png){width=15%}
 
 Your genius lab goes here!
