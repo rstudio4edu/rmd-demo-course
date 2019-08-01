@@ -10,6 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Your Name" />
 
 
 <title>Lab 1</title>
@@ -24,6 +25,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -71,6 +74,9 @@ h6 {
 }
 .table th:not([align]) {
   text-align: left;
+}
+#rmd-source-code {
+  display: none;
 }
 </style>
 
@@ -252,6 +258,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -408,35 +417,201 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Lab 1</h1>
+<h3 class="subtitle">Demo Course</h3>
+<h4 class="author">Your Name</h4>
 
 </div>
 
 
-<p>[INSERT LAB CONTENT]</p>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<pre class="r"><code>library(gganimate)</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre class="r"><code>library(ggplot2)
-library(gapminder)
+<p><img src="images/genius.png" style="width:15.0%" /></p>
+<p><em>The content below is an adapted excerpt from <a href="https://apreshill.github.io/data-vis-labs-2018/02-moma.html">Alison Hill’s MoMa Museum Tour Lab</a>.</em></p>
+<div id="goals-for-lab-1" class="section level1">
+<h1><span class="header-section-number">1</span> Goals for Lab 1</h1>
+<ul>
+<li>Map global plot aesthetics to variables in <code>ggplot2</code></li>
+<li>Create facetted plots with <code>ggplot2</code></li>
+<li>Animate your plot using <code>gganimate</code></li>
+</ul>
+</div>
+<div id="inspiration-data" class="section level1">
+<h1><span class="header-section-number">2</span> Inspiration + data</h1>
+<p>We’ll use data from the Museum of Modern Art (MoMA)</p>
+<ul>
+<li>Publicly available on <a href="https://github.com/MuseumofModernArt/collection">GitHub</a></li>
+<li>As analyzed by <a href="https://fivethirtyeight.com/features/a-nerds-guide-to-the-2229-paintings-at-moma/">fivethirtyeight.com</a></li>
+<li>And by <a href="https://medium.com/@foe/here-s-a-roundup-of-how-people-have-used-our-data-so-far-80862e4ce220">others</a></li>
+</ul>
+</div>
+<div id="packages-needed" class="section level1">
+<h1><span class="header-section-number">3</span> Packages needed</h1>
+<pre class="r"><code>library(tidyverse) # readr, ggplot2, dplyr
+library(gganimate) # to animate our ggplot</code></pre>
+<p>Note! This is not the original data- I did a lot of cleaning and decision-making in the pre-processing. The below contains only paintings and drawings in the MoMA collection.</p>
+<p>Use this code chunk to read in the data available at <a href="http://bit.ly/cs631-moma">http://bit.ly/cs631-moma</a>:</p>
+<pre class="r"><code>library(readr)
+moma &lt;- read_csv(&quot;http://bit.ly/cs631-moma&quot;)</code></pre>
+</div>
+<div id="know-your-data" class="section level1">
+<h1><span class="header-section-number">4</span> Know your data</h1>
+<p>Before you begin plotting, make sure you take a look at the number of variables and observations in your dataset. Try answering the question below on your own using <code>dplyr</code>.</p>
+<ol style="list-style-type: decimal">
+<li><p>How many paintings (rows) are in moma?</p></li>
+<li><p>How many variables (columns) are in moma?</p></li>
+</ol>
+<pre class="r"><code>library(dplyr)
+moma</code></pre>
+<pre><code># A tibble: 2,253 x 23
+   title artist artist_bio artist_birth_ye… artist_death_ye… num_artists
+   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt;
+ 1 Rope… Joan … (Spanish,…             1893             1983           1
+ 2 Fire… Paul … (German, …             1879             1940           1
+ 3 Port… Paul … (German, …             1879             1940           1
+ 4 Guit… Pablo… (Spanish,…             1881             1973           1
+ 5 Gran… Arthu… (American…             1880             1946           1
+ 6 &quot;\&quot;M… Franc… (French, …             1879             1953           1
+ 7 Unti… Blink… (German, …             1943             1977           1
+ 8 Dayl… Pierr… (French, …             1880             1950           1
+ 9 The … Paul … (French, …             1839             1906           1
+10 Synt… Enric… (Italian,…             1894             1956           1
+# … with 2,243 more rows, and 17 more variables: n_female_artists &lt;dbl&gt;,
+#   n_male_artists &lt;dbl&gt;, artist_gender &lt;chr&gt;, year_acquired &lt;dbl&gt;,
+#   year_created &lt;dbl&gt;, circumference_cm &lt;lgl&gt;, depth_cm &lt;dbl&gt;,
+#   diameter_cm &lt;lgl&gt;, height_cm &lt;dbl&gt;, length_cm &lt;lgl&gt;, width_cm &lt;dbl&gt;,
+#   seat_height_cm &lt;lgl&gt;, purchase &lt;lgl&gt;, gift &lt;lgl&gt;, exchange &lt;lgl&gt;,
+#   classification &lt;chr&gt;, department &lt;chr&gt;</code></pre>
+<pre class="r"><code>glimpse(moma)</code></pre>
+<pre><code>Observations: 2,253
+Variables: 23
+$ title             &lt;chr&gt; &quot;Rope and People, I&quot;, &quot;Fire in the Evening&quot;, &quot;…
+$ artist            &lt;chr&gt; &quot;Joan Miró&quot;, &quot;Paul Klee&quot;, &quot;Paul Klee&quot;, &quot;Pablo …
+$ artist_bio        &lt;chr&gt; &quot;(Spanish, 1893–1983)&quot;, &quot;(German, born Switzer…
+$ artist_birth_year &lt;dbl&gt; 1893, 1879, 1879, 1881, 1880, 1879, 1943, 1880…
+$ artist_death_year &lt;dbl&gt; 1983, 1940, 1940, 1973, 1946, 1953, 1977, 1950…
+$ num_artists       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ n_female_artists  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ n_male_artists    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ artist_gender     &lt;chr&gt; &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Male&quot;…
+$ year_acquired     &lt;dbl&gt; 1936, 1970, 1966, 1955, 1939, 1968, 1997, 1931…
+$ year_created      &lt;dbl&gt; 1935, 1929, 1927, 1919, 1925, 1919, 1970, 1929…
+$ circumference_cm  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ depth_cm          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ diameter_cm       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ height_cm         &lt;dbl&gt; 104.8, 33.8, 60.3, 215.9, 50.8, 129.2, 200.0, …
+$ length_cm         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ width_cm          &lt;dbl&gt; 74.6, 33.3, 36.8, 78.7, 54.0, 89.9, 200.0, 38.…
+$ seat_height_cm    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ purchase          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS…
+$ gift              &lt;lgl&gt; TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, T…
+$ exchange          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE…
+$ classification    &lt;chr&gt; &quot;Painting&quot;, &quot;Painting&quot;, &quot;Painting&quot;, &quot;Painting&quot;…
+$ department        &lt;chr&gt; &quot;Painting &amp; Sculpture&quot;, &quot;Painting &amp; Sculpture&quot;…</code></pre>
+</div>
+<div id="plot-your-data" class="section level1">
+<h1><span class="header-section-number">5</span> Plot your data</h1>
+<ol start="3" style="list-style-type: decimal">
+<li>Let’s create a plot similar to this one from <a href="https://fivethirtyeight.com/features/a-nerds-guide-to-the-2229-paintings-at-moma/">fivethirtyeight</a>.</li>
+</ol>
+<center>
+<img src="https://fivethirtyeight.com/wp-content/uploads/2015/08/roeder-feature-moma-1.png?w=575" style="width:50.0%" />
+</center>
+<p><strong>Things to consider:</strong></p>
+<ul>
+<li>You’ll want to play around with setting an <code>alpha</code> value here- keep in mind that <code>0</code> is totally transparent and <code>1</code> is opaque.</li>
+<li>Try using <code>geom_abline()</code> to add the line in red (use the default intercept value of 0). The red line you see in the fivethiryeight article is difficult to recreate- here is what the authors say: “The red regression line shows the “modernizing” of MoMA’s collection — how quickly the museum has moved toward acquiring recent paintings.&quot;</li>
+</ul>
+<pre class="r"><code>ggplot(moma, aes(year_created, year_acquired)) +
+  geom_point(alpha = .1, na.rm = TRUE) +
+  geom_abline(intercept = c(0,0), colour = &quot;red&quot;) +
+  labs(x = &quot;Year Painted&quot;, y = &quot;Year Acquired&quot;) +
+  ggtitle(&quot;MoMA Keeps Its Collection Current&quot;) </code></pre>
+<p><img src="lab1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="group-by-artist-gender" class="section level1">
+<h1><span class="header-section-number">6</span> Group by artist gender</h1>
+<p>You can group the data by gender a couple ways.</p>
+<p><strong>Hint:</strong> For this to make sense, you probably want to do some filtering to select only those paintings where there was one “solo” artist.</p>
+<div id="color-by-artist-gender" class="section level2">
+<h2><span class="header-section-number">6.1</span> Color by artist gender</h2>
+<ol start="4" style="list-style-type: decimal">
+<li>Color each data point based on artist gender. You can adjust the alpha value to make the colors easier to distinguish.</li>
+</ol>
+<pre class="r"><code>moma_solo &lt;- moma %&gt;% 
+  filter(num_artists == 1)
 
-ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, colour = country)) +
-  geom_point(alpha = 0.7, show.legend = FALSE) +
-  scale_colour_manual(values = country_colors) +
-  scale_size(range = c(2, 12)) +
-  scale_x_log10() +
-  facet_wrap(~continent) +
+ggplot(moma_solo, aes(year_created, year_acquired, colour = artist_gender)) +
+  geom_point(alpha = .5, na.rm = TRUE) +
+  geom_abline(intercept = c(0,0), colour = &quot;red&quot;) +
+  labs(x = &quot;Year Painted&quot;, y = &quot;Year Acquired&quot;) +
+  ggtitle(&quot;MoMA Keeps Its Collection Current&quot;) </code></pre>
+<p><img src="lab1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="facet-by-artist-gender" class="section level2">
+<h2><span class="header-section-number">6.2</span> Facet by artist gender</h2>
+<p>It can be difficult to see differences between the data grouped by artist gender when all data points are on the same plot. Let’s try to fix this:</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Facet by artist gender instead. Remove the legend that generates automatically.</li>
+</ol>
+<pre class="r"><code>moma_solo &lt;- moma %&gt;% 
+  filter(num_artists == 1)
+ggplot(moma_solo, aes(x= year_created, y = year_acquired, colour = artist_gender)) +
+  geom_point(alpha = .5, na.rm = TRUE, show.legend = FALSE ) +
+  geom_abline(intercept = c(0,0), colour = &quot;red&quot;) +
+  labs(x = &quot;Year Painted&quot;, y = &quot;Year Acquired&quot;) +
+  ggtitle(&quot;MoMA Keeps Its Collection Current&quot;) +
+  facet_wrap(~artist_gender)</code></pre>
+<p><img src="lab1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
+<div id="animate-your-plot" class="section level1">
+<h1><span class="header-section-number">7</span> Animate your plot</h1>
+<p>You can use <code>gganimate</code> to animate your plot.</p>
+<ul>
+<li>You’ll animate by adding a <code>transition_time()</code> layer to your ggplot.</li>
+<li>The argument for <code>transition_time()</code> should be whatever variable you want to “cycle” through with each frame of your animation. Usually it is most natural to select a transition variable that is related to time. Make sure you first filter out any observations that are <code>NA</code> for this variable before you begin plotting.</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
+<li>Start with the plot you made above. Now animate this plot to see how these data vary through the years that the MoMA acquires work. Go ahead an remove the abline for this plot and use the following for your title: <code>title = 'Year Acquired: {round(frame_time,0)}'</code></li>
+</ol>
+<p><strong>Hint</strong>: Make sure you are not plotting any rows containing <code>NA</code>s for the variable that you use as your transition time.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Add <code>shadow_mark()</code> as a new layer. What does this do to your animation?</li>
+</ol>
+<pre class="r"><code>library(gganimate)
+library(tidyverse)
+
+moma_solo &lt;- moma %&gt;% 
+  filter(num_artists == 1) %&gt;%
+  filter(!is.na(year_acquired))
+
+ggplot(moma_solo, aes(x= year_created, y = year_acquired, colour = artist_gender)) +
+  geom_point(alpha = .5, na.rm = TRUE) +
+  labs(x = &quot;Year Painted&quot;, y = &quot;Year Acquired&quot;) +
+  ggtitle(&quot;MoMA Keeps Its Collection Current&quot;) +
+  facet_wrap(~artist_gender) +
   # Here comes the gganimate specific bits
-  labs(title = &#39;Year: {frame_time}&#39;, x = &#39;GDP per capita&#39;, y = &#39;life expectancy&#39;) +
-  transition_time(year) +
-  ease_aes(&#39;linear&#39;)</code></pre>
-<p><img src="lab1_files/figure-html/unnamed-chunk-1-1.gif" /><!-- --></p>
+  labs(title = &#39;Year Acquired: {round(frame_time,0)}&#39;, x = &#39;Year Created&#39;, y = &#39;Year Acquired&#39;) +
+  transition_time(year_acquired) +
+  shadow_mark() </code></pre>
+<p><img src="lab1_files/figure-html/unnamed-chunk-7-1.gif" /><!-- --></p>
+<p><br />
+</p>
+<p><a href="http://www.host.com/link.html"><img src="images/by-nc.png" alt="cc-by-nc" style="width:15.0%" /></a></p>
 </div>
 
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGFiIDEiCnN1YnRpdGxlOiAiRGVtbyBDb3Vyc2UiCmF1dGhvcjogIllvdXIgTmFtZSIKb3V0cHV0OgogIGh0bWxfZG9jdW1lbnQ6CiAgICBjb2RlX2ZvbGRpbmc6IGhpZGUKICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQotLS0KCmBgYHtyIHNldHVwX21vbWEsIGluY2x1ZGUgPSBGQUxTRSwgY2FjaGUgPSBGQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KAogIGNvbW1lbnQgPSBOQSwgCiAgd2FybmluZyA9IEZBTFNFLCAKICBtZXNzYWdlID0gRkFMU0UpCmBgYAoKIVtdKGltYWdlcy9nZW5pdXMucG5nKXt3aWR0aD0xNSV9CgoqVGhlIGNvbnRlbnQgYmVsb3cgaXMgYW4gYWRhcHRlZCBleGNlcnB0IGZyb20gW0FsaXNvbiBIaWxsJ3MgTW9NYSBNdXNldW0gVG91ciBMYWJdKGh0dHBzOi8vYXByZXNoaWxsLmdpdGh1Yi5pby9kYXRhLXZpcy1sYWJzLTIwMTgvMDItbW9tYS5odG1sKS4qICAKCgojIEdvYWxzIGZvciBMYWIgMQoKLSBNYXAgZ2xvYmFsIHBsb3QgYWVzdGhldGljcyB0byB2YXJpYWJsZXMgaW4gYGdncGxvdDJgCi0gQ3JlYXRlIGZhY2V0dGVkIHBsb3RzIHdpdGggYGdncGxvdDJgCi0gQW5pbWF0ZSB5b3VyIHBsb3QgdXNpbmcgYGdnYW5pbWF0ZWAKCiMgSW5zcGlyYXRpb24gKyBkYXRhCgpXZSdsbCB1c2UgZGF0YSBmcm9tIHRoZSBNdXNldW0gb2YgTW9kZXJuIEFydCAoTW9NQSkKCi0gUHVibGljbHkgYXZhaWxhYmxlIG9uIFtHaXRIdWJdKGh0dHBzOi8vZ2l0aHViLmNvbS9NdXNldW1vZk1vZGVybkFydC9jb2xsZWN0aW9uKQotIEFzIGFuYWx5emVkIGJ5IFtmaXZldGhpcnR5ZWlnaHQuY29tXShodHRwczovL2ZpdmV0aGlydHllaWdodC5jb20vZmVhdHVyZXMvYS1uZXJkcy1ndWlkZS10by10aGUtMjIyOS1wYWludGluZ3MtYXQtbW9tYS8pCi0gQW5kIGJ5IFtvdGhlcnNdKGh0dHBzOi8vbWVkaXVtLmNvbS9AZm9lL2hlcmUtcy1hLXJvdW5kdXAtb2YtaG93LXBlb3BsZS1oYXZlLXVzZWQtb3VyLWRhdGEtc28tZmFyLTgwODYyZTRjZTIyMCkKCgojIFBhY2thZ2VzIG5lZWRlZAoKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKSAjIHJlYWRyLCBnZ3Bsb3QyLCBkcGx5cgpsaWJyYXJ5KGdnYW5pbWF0ZSkgIyB0byBhbmltYXRlIG91ciBnZ3Bsb3QKYGBgCgpOb3RlISBUaGlzIGlzIG5vdCB0aGUgb3JpZ2luYWwgZGF0YS0gSSBkaWQgYSBsb3Qgb2YgY2xlYW5pbmcgYW5kIGRlY2lzaW9uLW1ha2luZyBpbiB0aGUgcHJlLXByb2Nlc3NpbmcuIFRoZSBiZWxvdyBjb250YWlucyBvbmx5IHBhaW50aW5ncyBhbmQgZHJhd2luZ3MgaW4gdGhlIE1vTUEgY29sbGVjdGlvbi4KClVzZSB0aGlzIGNvZGUgY2h1bmsgdG8gcmVhZCBpbiB0aGUgZGF0YSBhdmFpbGFibGUgYXQgW2h0dHA6Ly9iaXQubHkvY3M2MzEtbW9tYV0oaHR0cDovL2JpdC5seS9jczYzMS1tb21hKToKCmBgYHtyIGVjaG8gPSBUUlVFfQpsaWJyYXJ5KHJlYWRyKQptb21hIDwtIHJlYWRfY3N2KCJodHRwOi8vYml0Lmx5L2NzNjMxLW1vbWEiKQpgYGAKCiMgS25vdyB5b3VyIGRhdGEKCkJlZm9yZSB5b3UgYmVnaW4gcGxvdHRpbmcsIG1ha2Ugc3VyZSB5b3UgdGFrZSBhIGxvb2sgYXQgdGhlIG51bWJlciBvZiB2YXJpYWJsZXMgYW5kIG9ic2VydmF0aW9ucyBpbiB5b3VyIGRhdGFzZXQuIFRyeSBhbnN3ZXJpbmcgdGhlIHF1ZXN0aW9uIGJlbG93IG9uIHlvdXIgb3duIHVzaW5nIGBkcGx5cmAuIAoKMS4gSG93IG1hbnkgcGFpbnRpbmdzIChyb3dzKSBhcmUgaW4gbW9tYT8gCgoyLiBIb3cgbWFueSB2YXJpYWJsZXMgKGNvbHVtbnMpIGFyZSBpbiBtb21hPwoKYGBge3J9CmxpYnJhcnkoZHBseXIpCm1vbWEKZ2xpbXBzZShtb21hKQpgYGAKCiMgUGxvdCB5b3VyIGRhdGEgIAoKMy4gTGV0J3MgY3JlYXRlIGEgcGxvdCBzaW1pbGFyIHRvIHRoaXMgb25lIGZyb20gW2ZpdmV0aGlydHllaWdodF0oaHR0cHM6Ly9maXZldGhpcnR5ZWlnaHQuY29tL2ZlYXR1cmVzL2EtbmVyZHMtZ3VpZGUtdG8tdGhlLTIyMjktcGFpbnRpbmdzLWF0LW1vbWEvKS4gCgo8Y2VudGVyPiFbXShodHRwczovL2ZpdmV0aGlydHllaWdodC5jb20vd3AtY29udGVudC91cGxvYWRzLzIwMTUvMDgvcm9lZGVyLWZlYXR1cmUtbW9tYS0xLnBuZz93PTU3NSl7d2lkdGg9NTAlfTwvY2VudGVyPiAgCgoKKipUaGluZ3MgdG8gY29uc2lkZXI6KiogCgotIFlvdSdsbCB3YW50IHRvIHBsYXkgYXJvdW5kIHdpdGggc2V0dGluZyBhbiBgYWxwaGFgIHZhbHVlIGhlcmUtIGtlZXAgaW4gbWluZCB0aGF0IGAwYCBpcyB0b3RhbGx5IHRyYW5zcGFyZW50IGFuZCBgMWAgaXMgb3BhcXVlLiAKLSBUcnkgdXNpbmcgYGdlb21fYWJsaW5lKClgIHRvIGFkZCB0aGUgbGluZSBpbiByZWQgKHVzZSB0aGUgZGVmYXVsdCBpbnRlcmNlcHQgdmFsdWUgb2YgMCkuIFRoZSByZWQgbGluZSB5b3Ugc2VlIGluIHRoZSBmaXZldGhpcnllaWdodCBhcnRpY2xlIGlzIGRpZmZpY3VsdCB0byByZWNyZWF0ZS0gaGVyZSBpcyB3aGF0IHRoZSBhdXRob3JzIHNheTogIlRoZSByZWQgcmVncmVzc2lvbiBsaW5lIHNob3dzIHRoZSDigJxtb2Rlcm5pemluZ+KAnSBvZiBNb01B4oCZcyBjb2xsZWN0aW9uIOKAlCBob3cgcXVpY2tseSB0aGUgbXVzZXVtIGhhcyBtb3ZlZCB0b3dhcmQgYWNxdWlyaW5nIHJlY2VudCBwYWludGluZ3MuIgoKCmBgYHtyfQpnZ3Bsb3QobW9tYSwgYWVzKHllYXJfY3JlYXRlZCwgeWVhcl9hY3F1aXJlZCkpICsKICBnZW9tX3BvaW50KGFscGhhID0gLjEsIG5hLnJtID0gVFJVRSkgKwogIGdlb21fYWJsaW5lKGludGVyY2VwdCA9IGMoMCwwKSwgY29sb3VyID0gInJlZCIpICsKICBsYWJzKHggPSAiWWVhciBQYWludGVkIiwgeSA9ICJZZWFyIEFjcXVpcmVkIikgKwogIGdndGl0bGUoIk1vTUEgS2VlcHMgSXRzIENvbGxlY3Rpb24gQ3VycmVudCIpIApgYGAKCiMgR3JvdXAgYnkgYXJ0aXN0IGdlbmRlcgpZb3UgY2FuIGdyb3VwIHRoZSBkYXRhIGJ5IGdlbmRlciBhIGNvdXBsZSB3YXlzLiAgCgpfX0hpbnQ6X18gRm9yIHRoaXMgdG8gbWFrZSBzZW5zZSwgeW91IHByb2JhYmx5IHdhbnQgdG8gZG8gc29tZSBmaWx0ZXJpbmcgdG8gc2VsZWN0IG9ubHkgdGhvc2UgcGFpbnRpbmdzIHdoZXJlIHRoZXJlIHdhcyBvbmUgInNvbG8iIGFydGlzdC4KCiMjIENvbG9yIGJ5IGFydGlzdCBnZW5kZXIKCjQuIENvbG9yIGVhY2ggZGF0YSBwb2ludCBiYXNlZCBvbiBhcnRpc3QgZ2VuZGVyLiBZb3UgY2FuIGFkanVzdCB0aGUgYWxwaGEgdmFsdWUgdG8gbWFrZSB0aGUgY29sb3JzIGVhc2llciB0byBkaXN0aW5ndWlzaC4KCmBgYHtyfQoKbW9tYV9zb2xvIDwtIG1vbWEgJT4lIAogIGZpbHRlcihudW1fYXJ0aXN0cyA9PSAxKQoKZ2dwbG90KG1vbWFfc29sbywgYWVzKHllYXJfY3JlYXRlZCwgeWVhcl9hY3F1aXJlZCwgY29sb3VyID0gYXJ0aXN0X2dlbmRlcikpICsKICBnZW9tX3BvaW50KGFscGhhID0gLjUsIG5hLnJtID0gVFJVRSkgKwogIGdlb21fYWJsaW5lKGludGVyY2VwdCA9IGMoMCwwKSwgY29sb3VyID0gInJlZCIpICsKICBsYWJzKHggPSAiWWVhciBQYWludGVkIiwgeSA9ICJZZWFyIEFjcXVpcmVkIikgKwogIGdndGl0bGUoIk1vTUEgS2VlcHMgSXRzIENvbGxlY3Rpb24gQ3VycmVudCIpIApgYGAKCgojIyBGYWNldCBieSBhcnRpc3QgZ2VuZGVyCgpJdCBjYW4gYmUgZGlmZmljdWx0IHRvIHNlZSBkaWZmZXJlbmNlcyBiZXR3ZWVuIHRoZSBkYXRhIGdyb3VwZWQgYnkgYXJ0aXN0IGdlbmRlciB3aGVuIGFsbCBkYXRhIHBvaW50cyBhcmUgb24gdGhlIHNhbWUgcGxvdC4gTGV0J3MgdHJ5IHRvIGZpeCB0aGlzOgoKNS4gRmFjZXQgYnkgYXJ0aXN0IGdlbmRlciBpbnN0ZWFkLiBSZW1vdmUgdGhlIGxlZ2VuZCB0aGF0IGdlbmVyYXRlcyBhdXRvbWF0aWNhbGx5LgoKYGBge3J9Cm1vbWFfc29sbyA8LSBtb21hICU+JSAKICBmaWx0ZXIobnVtX2FydGlzdHMgPT0gMSkKZ2dwbG90KG1vbWFfc29sbywgYWVzKHg9IHllYXJfY3JlYXRlZCwgeSA9IHllYXJfYWNxdWlyZWQsIGNvbG91ciA9IGFydGlzdF9nZW5kZXIpKSArCiAgZ2VvbV9wb2ludChhbHBoYSA9IC41LCBuYS5ybSA9IFRSVUUsIHNob3cubGVnZW5kID0gRkFMU0UgKSArCiAgZ2VvbV9hYmxpbmUoaW50ZXJjZXB0ID0gYygwLDApLCBjb2xvdXIgPSAicmVkIikgKwogIGxhYnMoeCA9ICJZZWFyIFBhaW50ZWQiLCB5ID0gIlllYXIgQWNxdWlyZWQiKSArCiAgZ2d0aXRsZSgiTW9NQSBLZWVwcyBJdHMgQ29sbGVjdGlvbiBDdXJyZW50IikgKwogIGZhY2V0X3dyYXAofmFydGlzdF9nZW5kZXIpCmBgYAoKCiMgQW5pbWF0ZSB5b3VyIHBsb3QKCllvdSBjYW4gdXNlIGBnZ2FuaW1hdGVgIHRvIGFuaW1hdGUgeW91ciBwbG90LiAKCiogWW91J2xsIGFuaW1hdGUgYnkgYWRkaW5nIGEgYHRyYW5zaXRpb25fdGltZSgpYCBsYXllciB0byB5b3VyIGdncGxvdC4gCiogVGhlIGFyZ3VtZW50IGZvciBgdHJhbnNpdGlvbl90aW1lKClgIHNob3VsZCBiZSB3aGF0ZXZlciB2YXJpYWJsZSB5b3Ugd2FudCB0byAiY3ljbGUiIHRocm91Z2ggd2l0aCBlYWNoIGZyYW1lIG9mIHlvdXIgYW5pbWF0aW9uLiBVc3VhbGx5IGl0IGlzIG1vc3QgbmF0dXJhbCB0byBzZWxlY3QgYSB0cmFuc2l0aW9uIHZhcmlhYmxlIHRoYXQgaXMgcmVsYXRlZCB0byB0aW1lLiBNYWtlIHN1cmUgeW91IGZpcnN0IGZpbHRlciBvdXQgYW55IG9ic2VydmF0aW9ucyB0aGF0IGFyZSBgTkFgIGZvciB0aGlzIHZhcmlhYmxlIGJlZm9yZSB5b3UgYmVnaW4gcGxvdHRpbmcuIAoKNi4gU3RhcnQgd2l0aCB0aGUgcGxvdCB5b3UgbWFkZSBhYm92ZS4gTm93IGFuaW1hdGUgdGhpcyBwbG90IHRvIHNlZSBob3cgdGhlc2UgZGF0YSB2YXJ5IHRocm91Z2ggdGhlIHllYXJzIHRoYXQgdGhlIE1vTUEgYWNxdWlyZXMgd29yay4gR28gYWhlYWQgYW4gcmVtb3ZlIHRoZSBhYmxpbmUgZm9yIHRoaXMgcGxvdCBhbmQgdXNlIHRoZSBmb2xsb3dpbmcgZm9yIHlvdXIgdGl0bGU6IGB0aXRsZSA9ICdZZWFyIEFjcXVpcmVkOiB7cm91bmQoZnJhbWVfdGltZSwwKX0nYCAgCgpfX0hpbnRfXzogTWFrZSBzdXJlIHlvdSBhcmUgbm90IHBsb3R0aW5nIGFueSByb3dzIGNvbnRhaW5pbmcgYE5BYHMgZm9yIHRoZSB2YXJpYWJsZSB0aGF0IHlvdSB1c2UgYXMgeW91ciB0cmFuc2l0aW9uIHRpbWUuCgoKNy4gQWRkIGBzaGFkb3dfbWFyaygpYCBhcyBhIG5ldyBsYXllci4gV2hhdCBkb2VzIHRoaXMgZG8gdG8geW91ciBhbmltYXRpb24/CgoKYGBge3IsIGNhY2hlID0gVFJVRX0KCmxpYnJhcnkoZ2dhbmltYXRlKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKCm1vbWFfc29sbyA8LSBtb21hICU+JSAKICBmaWx0ZXIobnVtX2FydGlzdHMgPT0gMSkgJT4lCiAgZmlsdGVyKCFpcy5uYSh5ZWFyX2FjcXVpcmVkKSkKCmdncGxvdChtb21hX3NvbG8sIGFlcyh4PSB5ZWFyX2NyZWF0ZWQsIHkgPSB5ZWFyX2FjcXVpcmVkLCBjb2xvdXIgPSBhcnRpc3RfZ2VuZGVyKSkgKwogIGdlb21fcG9pbnQoYWxwaGEgPSAuNSwgbmEucm0gPSBUUlVFKSArCiAgbGFicyh4ID0gIlllYXIgUGFpbnRlZCIsIHkgPSAiWWVhciBBY3F1aXJlZCIpICsKICBnZ3RpdGxlKCJNb01BIEtlZXBzIEl0cyBDb2xsZWN0aW9uIEN1cnJlbnQiKSArCiAgZmFjZXRfd3JhcCh+YXJ0aXN0X2dlbmRlcikgKwogICMgSGVyZSBjb21lcyB0aGUgZ2dhbmltYXRlIHNwZWNpZmljIGJpdHMKICBsYWJzKHRpdGxlID0gJ1llYXIgQWNxdWlyZWQ6IHtyb3VuZChmcmFtZV90aW1lLDApfScsIHggPSAnWWVhciBDcmVhdGVkJywgeSA9ICdZZWFyIEFjcXVpcmVkJykgKwogIHRyYW5zaXRpb25fdGltZSh5ZWFyX2FjcXVpcmVkKSArCiAgc2hhZG93X21hcmsoKSAKICAKYGBgCgoKXAoKWyFbY2MtYnktbmNdKGltYWdlcy9ieS1uYy5wbmcpe3dpZHRoPTE1JX1dKGh0dHA6Ly93d3cuaG9zdC5jb20vbGluay5odG1sKQo=</div>
 <!DOCTYPE html>
 <hr> 
 <div class="footer"> This website was created using an <a class="rstudio4edu" href="https://rstudio4edu.github.io/rstudio4edu-book/">rstudio4edu </a>template.
@@ -476,6 +651,12 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("lab1.Rmd");
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
