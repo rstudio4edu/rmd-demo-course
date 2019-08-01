@@ -49,8 +49,8 @@ You will need a laptop to complete all in-class exercises and labs.
 
 Throughout this course we will be using R and RStudio. You have access to both of these for free. R is the programming language, and RStudio is the software that let's you interface with R easily. You can install R and RStudio on your local computer, but you can also access RStudio from the cloud, using the (also free) RStudio.cloud service. 
 
-## Textbook and Assigned Readings
-All textbooks are freely available online. Readings 
+## Textbook and Readings
+All textbooks are freely available online. Readings for each module will be posted on under the *Readings* tab of this site and will be updated regularly. 
 
  * [R for Data Science](https://r4ds.had.co.nz/)
  * [Data Visualization: A Practical Introduction](http://socviz.co/)
@@ -84,4 +84,4 @@ If you believe someone is violating the Code of Conduct, we ask that you report 
 
 \
 
-[![cc-by-nc](images/by-nc.png)](http://www.host.com/link.html)
+[![cc-by-nc](images/by-nc.png){width=15%}](http://www.host.com/link.html)
