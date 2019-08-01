@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans|Muli|Roboto|Playfair+Display|Lora:400,400i,700,700i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans|Muli:400,600,700,800|Roboto|Playfair+Display|Lora:400,400i,700,700i&display=swap');
 
 
 /* Whole document: */
-
 
 body {
 	font-size: 19px;
@@ -16,19 +15,6 @@ a { /* links */
 
 a:hover {
  color: #50a0b0; /* darker color when hovering */
-}
-
-h1 {
-  padding-top: 2em !important;
-  margin-top: -1em !important;
-  margin-bottom: 0.75em;
-}
-
-
-h2, h3, h4, h5 {
-  padding-top: 1em !important;
-  margin-top: -0.5em !important;
-  margin-bottom: 0.75em;
 }
 
 
@@ -49,19 +35,48 @@ h2, h3, h4, h5 {
   position: relative;
 }
 
+
+/*----------------ADDING WHITE SPACE-------------*/
+
+.title {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em;
+}
+
+.section h1,
+.section h2, 
+.section h3, 
+.section h4, 
+.section h5 { 
+  padding-top: 4em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
+  margin-bottom: 0.75em;
+}
+
+
+/* Between TOC and Righthand side content on large screens */
+
+@media (min-width: 992px) {
+  .col-md-9 {
+    width: 75%;
+    padding-left: 4em !important;
+  }
+}
+
+
 /*----------------NAVBAR ---------------*/
 .navbar-default {
-    background-color: black;
+    background-color: #141c25;
     border: none;
 }
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.active>a, a.dropdown-toggle:hover {
-  background-color: black !important;
+  background-color: #141c25 !important;
 }
 
+/* Navbar Links*/
 .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav:hover, .navbar-default .navbar-nav>li>a:hover, a.navbar-brand:hover {
-  color: #5ccbd3 !important;
-  background-color: black;
+  color: #5ebccf !important;
+  background-color: #141c25;
 }
 
 
@@ -136,10 +151,10 @@ div.tocify {
 .hero-image-container {
     position: relative;
     margin-bottom: 2em;
-    background-image: url(../images/green-sketch.jpg);
+    background-image: url(../images/green-sketch-copy.jpg);
     height: 400px;
     background-size: cover;
-    background-color: #5ccbd3;
+    background-color: #5ebccf;
     background-position: center center;
     display: block; /* Change to `display: none` for no hero image */
 }
@@ -230,7 +245,7 @@ body, html {
 }
 
 
-/* 2: For logo above title in upper righthand corner, inline with Title and Author, when also used with logo.HTML before_body. use style rule below. otherwise comment out*/
+/* 2: For logo above title in upper righthand corner, inline with Title and Author (when also used with logo.HTML before_body), use style rule below. Otherwise comment out*/
 
 /*
 .upper-right-logo {
@@ -258,3 +273,34 @@ body, html {
   background-repeat: no-repeat;
 }
 */
+
+
+/* Exercise counter */
+
+ol {
+	/* Remove the default left padding */
+	padding-left: 0;
+}
+
+ol>li {
+	/* Create a positioning context */
+	position: relative;
+	/* Disable the normal item numbering */
+	list-style: none;
+	width: 90%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 0;
+	padding-left: 110px;
+}
+
+ol>li:before {
+	/* Use the counter as content */
+	content: "Question " counter(li) ": ";
+	/* Increment the counter by 1 */
+	counter-increment: id;
+	position: absolute;
+	color: #5ebccf;
+	left: -0.5px;
+	font-weight: bold;
+}
