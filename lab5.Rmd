@@ -1,5 +1,12 @@
 ---
 title: "Lab 5"
+subtitle: "Demo Course"
+author: "Your Name"
+output:
+  html_document:
+    code_folding: hide
+    code_download: TRUE
+    number_sections: TRUE
 ---
 
 ![](images/genius.png){width=15%}
