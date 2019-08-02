@@ -275,14 +275,18 @@ body, html {
 */
 
 
-/* Exercise counter */
+/* Question counter */
 
-ol {
+body {
+  counter-reset: li;
+}
+
+.question ol {
 	/* Remove the default left padding */
 	padding-left: 0;
 }
 
-ol>li {
+.question ol>li {
 	/* Create a positioning context */
 	position: relative;
 	/* Disable the normal item numbering */
@@ -291,16 +295,22 @@ ol>li {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-right: 0;
-	padding-left: 110px;
+	padding-left: 120px;
 }
 
-ol>li:before {
+.question ol>li:before,
+.question ol>p>li:before{
 	/* Use the counter as content */
 	content: "Question " counter(li) ": ";
 	/* Increment the counter by 1 */
-	counter-increment: id;
+	counter-increment: li;
 	position: absolute;
 	color: #5ebccf;
 	left: -0.5px;
 	font-weight: bold;
 }
+
+.question ol ol {
+  counter-reset: subitem;
+}
+
