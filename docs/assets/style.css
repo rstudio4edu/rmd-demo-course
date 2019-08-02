@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans|Muli:400,600,700,800|Roboto|Playfair+Display|Lora:400,400i,700,700i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans|Muli:300,400,600,700,800|Roboto|Playfair+Display|Lora:400,400i,700,700i&display=swap');
 
 
 /* Whole document: */
@@ -18,21 +18,9 @@ a:hover {
 }
 
 
- .container-fluid {   /* margin: 0 Left-aligns container; margin: auto to "center" (Default)*/
-    margin-right: auto !important; 
-    margin-left: auto !important;
-} 
-
 .row-fluid{
   display: flex; /* Necessary for stick TOC*/
   /*  position: relative; */
-}
-
-
-/*
-.col-xs-12 .col-sm-4 .col-md-3{
-  width: 25%;
-  position: relative;
 }
 
 
@@ -53,7 +41,7 @@ a:hover {
 }
 
 
-/* Between TOC and Righthand side content on large screens */
+/* Space Between TOC and Righthand side content on large screens */
 
 @media (min-width: 992px) {
   .col-md-9 {
@@ -63,25 +51,32 @@ a:hover {
 }
 
 
+
+
 /*----------------NAVBAR ---------------*/
 .navbar-default {
-    background-color: #141c25;
+    background-color: #141c25f2;
     border: none;
 }
 
-.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.active>a, a.dropdown-toggle:hover {
+.navbar-default .navbar-nav>.open>a, 
+.navbar-default .navbar-nav>.active>a, 
+a.dropdown-toggle:hover {
   background-color: #141c25 !important;
 }
 
-/* Navbar Links*/
-.navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav:hover, .navbar-default .navbar-nav>li>a:hover, a.navbar-brand:hover {
-  color: #5ebccf !important;
+/* Navbar Links when hovered*/
+.navbar-default .navbar-nav>.active>a:hover, 
+.navbar-default .navbar-nav:hover, 
+.navbar-default .navbar-nav>li>a:hover, 
+a.navbar-brand:hover {
+  color: #ffffffab !important;
   background-color: #141c25;
 }
 
 
 
-/*-----------*Table of Contents*------------*/
+/*-----------Table of Contents (TOC)------------*/
 
 div.tocify {
     width: 100% !important;
@@ -89,7 +84,6 @@ div.tocify {
     max-height: 85%;
     font-size: 16px;
 } 
-
 
 .tocify {
   border: none;
@@ -148,27 +142,23 @@ div.tocify {
 
 /* LARGE HERO IMAGE AT TOP OF PAGE*/
 
-.hero-image-container {
+.hero-image {
     position: relative;
     margin-bottom: 2em;
-    background-image: url(../images/green-sketch-copy.jpg);
+    background-image: linear-gradient( rgba(0,0,0,.2), rgba(0,0,0,.2) ),
+    url(../images/green-sketch.jpg); /* liner gradient tints the image darker for readability*/
     height: 400px;
     background-size: cover;
-    background-color: #5ebccf;
+    background-color: #141c25f2;
     background-position: center center;
-    display: block; /* Change to `display: none` for no hero image */
+    display: flex; /* Change to `display: none` for no hero image */
+    justify-content: center;
+    align-items: center;
 }
 
-/*
-.hero_image {
-  margin-top: -50px;
-  width: 100%;
-  object-fit: cover;
-  opacity: 0.9; 
-}
-*/
 
 .big-image-text {
+  position: relative;
   letter-spacing: 0.065em;
   line-height: 1em;
   font-size: 68px;
@@ -178,53 +168,6 @@ div.tocify {
   color: #fff;
   margin-bottom: 2.5rem;
   font-weight: bold;
-}
-
-
-.image-text{
-    position: absolute; 
-    top:30%; 
-    left: 0;
-    right:0;
-    bottom: 0;
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-
-
-/*-------------FOOTER-------------- */
-
-.footer {
-  font-size: .75em;
-  text-transform: uppercase;
-  color: #808080;
-  text-align: center;
-  width: 33%;
-  margin: 3rem auto;
-}
-
-/* Divider line above footer */
-.footer hr{
-  width: 100%;
-}
-
-
-.tocify-extend-page {
-  height: 0px !important; /* Gets rid of extra space after footer*/
-}
-
-body, html {
-  height: 100%;
-}
-
-.rstudio4edu {
-  color: #3fb5bd;
-  font-family: "Lora";
-  font-size: 1.25em;
-  font-weight: 600;
-  text-transform: none;
-  text-decoration: none;
-  
 }
 
 
@@ -275,7 +218,7 @@ body, html {
 */
 
 
-/* Question counter */
+/* -----------Question counter ---------*/
 
 body {
   counter-reset: li;
@@ -314,3 +257,39 @@ body {
   counter-reset: subitem;
 }
 
+/*-------------FOOTER-------------- */
+
+.footer {
+  font-size: .74em;
+  text-transform: uppercase;
+  color: #808080;
+  text-align: center;
+  width: 90%;
+  margin: 3rem auto;
+  font-weight: 300;
+}
+
+/* Divider line above footer */
+.footer hr{
+  width: 100%;
+}
+
+.tocify-extend-page {
+  height: 0px !important; /* Gets rid of extra space after footer*/
+}
+
+/* rstudio4edu text link */
+.rstudio4edu {
+  color: #3fb5bd;
+  font-family: "Lora";
+  font-size: 1.25em;
+  font-weight: 600;
+  text-transform: none;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.footer.logo {
+  width: 40px;
+  margin-right: 4px;
+}
