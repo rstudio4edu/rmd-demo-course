@@ -20,7 +20,6 @@ knitr::opts_chunk$set(
 
 *The content below is an adapted excerpt from [Alison Hill's MoMa Museum Tour Lab](https://apreshill.github.io/data-vis-labs-2018/02-moma.html).*  
 
-
 # Goals for Lab 1
 
 - Map global plot aesthetics to variables in `ggplot2`
@@ -56,19 +55,24 @@ moma <- read_csv("http://bit.ly/cs631-moma")
 
 Before you begin plotting, make sure you take a look at the number of variables and observations in your dataset. Try answering the question below on your own using `dplyr`. 
 
+<div class = "question">
 1. How many paintings (rows) are in moma? 
 
 2. How many variables (columns) are in moma?
+<div>
 
-```{r}
+```{r, results = "hide"}
 library(dplyr)
 moma
 glimpse(moma)
 ```
 
 # Plot your data  
+<div class="question">
 
 3. Let's create a plot similar to this one from [fivethirtyeight](https://fivethirtyeight.com/features/a-nerds-guide-to-the-2229-paintings-at-moma/). 
+
+</div>
 
 <center>![](https://fivethirtyeight.com/wp-content/uploads/2015/08/roeder-feature-moma-1.png?w=575){width=50%}</center>  
 
@@ -93,8 +97,10 @@ You can group the data by gender a couple ways.
 __Hint:__ For this to make sense, you probably want to do some filtering to select only those paintings where there was one "solo" artist.
 
 ## Color by artist gender
-
+<div class="question">
 4. Color each data point based on artist gender. You can adjust the alpha value to make the colors easier to distinguish.
+</div>
+
 
 ```{r}
 
@@ -113,7 +119,9 @@ ggplot(moma_solo, aes(year_created, year_acquired, colour = artist_gender)) +
 
 It can be difficult to see differences between the data grouped by artist gender when all data points are on the same plot. Let's try to fix this:
 
+<div class="question">
 5. Facet by artist gender instead. Remove the legend that generates automatically.
+</div>
 
 ```{r}
 moma_solo <- moma %>% 
@@ -134,13 +142,13 @@ You can use `gganimate` to animate your plot.
 * You'll animate by adding a `transition_time()` layer to your ggplot. 
 * The argument for `transition_time()` should be whatever variable you want to "cycle" through with each frame of your animation. Usually it is most natural to select a transition variable that is related to time. Make sure you first filter out any observations that are `NA` for this variable before you begin plotting. 
 
+<div class="question">
 6. Start with the plot you made above. Now animate this plot to see how these data vary through the years that the MoMA acquires work. Go ahead an remove the abline for this plot and use the following for your title: `title = 'Year Acquired: {round(frame_time,0)}'`  
 
 __Hint__: Make sure you are not plotting any rows containing `NA`s for the variable that you use as your transition time.
 
-
 7. Add `shadow_mark()` as a new layer. What does this do to your animation?
-
+</div>
 
 ```{r, cache = TRUE}
 
