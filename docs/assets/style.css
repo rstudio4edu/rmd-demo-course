@@ -146,7 +146,7 @@ div.tocify {
     position: relative;
     margin-bottom: 2em;
     background-image: linear-gradient( rgba(0,0,0,.2), rgba(0,0,0,.2) ),
-    url(../images/green-sketch.jpg); /* liner gradient tints the image darker for readability*/
+    url(../images/hero.jpg); /* liner gradient tints the image darker for readability*/
     height: 400px;
     background-size: cover;
     background-color: #141c25f2;
