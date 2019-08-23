@@ -33,7 +33,7 @@ navbar:
       href: https://rstudio.cloud/
 output:
   html_document:
-    theme: flatly
+    theme: yeti
     toc: true
     toc_float: true
     includes:

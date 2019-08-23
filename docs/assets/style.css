@@ -65,7 +65,18 @@ a.dropdown-toggle:hover {
   background-color: #141c25 !important;
 }
 
+/* Dropdown menu color */
+.navbar-default .dropdown-menu {
+  background-color: #141c25;
+}
+
+/* Dropdown menu hover color */
+  .navbar-default .dropdown-menu>li>a:hover {
+    background-color: #202831f2;
+  }
+
 /* Navbar Links when hovered*/
+
 .navbar-default .navbar-nav>.active>a:hover, 
 .navbar-default .navbar-nav:hover, 
 .navbar-default .navbar-nav>li>a:hover, 
@@ -171,7 +182,7 @@ div.tocify {
 }
 
 
-/* ADD A LOGO. THREE OPTIONS */
+/*---------- ADD A LOGO. THREE OPTIONS----------- */
 /* For no logo, comment out all options below*/
 
 /*1: For logo immediately above TOC, use style rule below, otherwise comment out*/
@@ -188,10 +199,14 @@ div.tocify {
 }
 
 
-/* 2: For logo above title in upper righthand corner, inline with Title and Author (when also used with logo.HTML before_body), use style rule below. Otherwise comment out*/
+
+/* 2: For logo to be in upper righthand corner, inline with title and author */
+/* not recommended if using TOC float */
 
 /*
-.upper-right-logo {
+#header.fluid-row::before {
+  content: "";
+  display: block;
   margin-top: 20px;
   background-image: url("logo-black.png");
   height: 150px;
@@ -202,12 +217,11 @@ div.tocify {
 */
 
 
-/* 3: For logo to be in upper righthand corner, ABOVE title and author */
+/* 3: For logo above title in upper righthand corner, above Title and Author (when also used with logo.HTML before_body), use style rule below. Otherwise comment out*/
 /* not recommended if using TOC float */
+
 /*
-#header.fluid-row::before {
-  content: "";
-  display: block;
+.upper-right-logo {
   margin-top: 20px;
   background-image: url("logo-black.png");
   height: 150px;

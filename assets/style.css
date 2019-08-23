@@ -65,7 +65,18 @@ a.dropdown-toggle:hover {
   background-color: #141c25 !important;
 }
 
+/* Dropdown menu color */
+.navbar-default .dropdown-menu {
+  background-color: #141c25;
+}
+
+/* Dropdown menu hover color */
+  .navbar-default .dropdown-menu>li>a:hover {
+    background-color: #202831f2;
+  }
+
 /* Navbar Links when hovered*/
+
 .navbar-default .navbar-nav>.active>a:hover, 
 .navbar-default .navbar-nav:hover, 
 .navbar-default .navbar-nav>li>a:hover, 
